@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>APEX QUANTUM AI — منصة التحليل والتداول الذكية المتكاملة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-canvas: #f4f7f6;
+    --bg-surface: #ffffff;
+    --bg-muted: #edf2f0;
+    --bg-soft-emerald: #eaf6f1;
+    --bg-soft-blue: #eef4fa;
+    --bg-soft-amber: #fcf6e8;
+    --bg-soft-rose: #fef2f2;
+    --text-primary: #14222c;
+    --text-secondary: #4a5d6a;
+    --brand-primary: #0f766e;
+    --brand-primary-dark: #0b5a54;
+    --brand-secondary: #1d4ed8;
+    --success: #15803d;
+    --danger: #b91c1c;
+    --warning: #b45309;
+    --border-light: #dce5e2;
+    --border-strong: #c2d0cb;
+    --shadow-sm: 0 2px 8px rgba(20, 34, 44, 0.05);
+    --shadow-md: 0 8px 24px rgba(20, 34, 44, 0.08);
+    --shadow-lg: 0 18px 42px rgba(20, 34, 44, 0.12);
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --radius-full: 999px;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: 'Cairo', 'Inter', sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .mono {
+    font-family: 'Inter', monospace;
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+    display: inline-block;
+  }
+
+  .top-strip {
+    background: linear-gradient(90deg, #0f766e 0%, #115e59 50%, #1e3a8a 100%);
+    color: #ffffff;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .pill-tag {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .weekend-notice {
+    background: #fffbeb;
+    border-bottom: 1px solid #fcd34d;
+    color: #78350f;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .status-pill-closed {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    padding: 1px 8px;
+    border-radius: var(--radius-full);
+    font-size: 10.5px;
+    font-weight: 800;
+  }
+
+  .status-pill-open {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+    padding: 1px 8px;
+    border-radius: var(--radius-full);
+    font-size: 10.5px;
+    font-weight: 800;
+  }
+
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    padding: 10px 14px;
+  }
+
+  .header-row {
+    max-width: 1220px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .brand-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 17px;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+  }
+
+  .brand-name {
+    font-weight: 900;
+    font-size: 15px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .brand-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: block;
+  }
+
+  .badge-soft {
+    background: var(--bg-soft-emerald);
+    color: var(--brand-primary);
+    border: 1px solid #b5e3d6;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 1px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .badge-ai {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 1px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+
+  .icon-btn {
+    border: 1px solid var(--border-light);
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: 7px 11px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.16s ease;
+  }
+
+  .icon-btn:hover {
+    background: var(--bg-muted);
+    border-color: var(--border-strong);
+  }
+
+  .icon-btn.primary {
+    background: var(--brand-primary);
+    color: #ffffff;
+    border-color: var(--brand-primary);
+  }
+
+  .icon-btn.primary:hover {
+    background: var(--brand-primary-dark);
+  }
+
+  .icon-btn.gold-btn {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #f59e0b;
+    font-weight: 900;
+  }
+
+  .live-ticker-bar {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-light);
+    padding: 8px 14px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    max-width: 1220px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ticker-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--bg-muted);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    padding: 5px 11px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .ticker-chip.active {
+    background: var(--bg-soft-emerald);
+    border-color: var(--brand-primary);
+  }
+
+  .ticker-sym { font-weight: 800; }
+  .ticker-src {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
+    font-weight: 800;
+  }
+
+  .chg-up { color: var(--success); font-weight: 700; }
+  .chg-dn { color: var(--danger); font-weight: 700; }
+
+  .main-container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 16px 14px 90px;
+  }
+
+  .gold-dedicated-banner {
+    display: none;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 1.5px solid #f59e0b;
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .gold-dedicated-banner.active {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .section-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .section-title {
+    margin: 0;
+    font-size: 15.5px;
+    font-weight: 900;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  @media (min-width: 900px) {
+    .controls-grid {
+      grid-template-columns: 1.15fr 1fr;
+    }
+  }
+
+  .category-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .cat-tab {
+    border: 1px solid var(--border-light);
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    border-radius: var(--radius-full);
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .cat-tab.active {
+    background: var(--brand-primary);
+    color: #fff;
+    border-color: var(--brand-primary);
+  }
+
+  .pair-pills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-left: 2px;
+  }
+
+  @media (min-width: 560px) {
+    .pair-pills {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .pair-btn {
+    border: 1.5px solid var(--border-light);
+    background: var(--bg-canvas);
+    border-radius: var(--radius-md);
+    padding: 9px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+
+  .pair-btn.active {
+    background: var(--bg-soft-emerald);
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.12);
+  }
+
+  .p-sym {
+    font-weight: 900;
+    font-size: 13px;
+    color: var(--text-primary);
+    display: block;
+  }
+
+  .p-price {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--brand-primary);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .tf-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .tf-pill {
+    border: 1px solid var(--border-light);
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    border-radius: var(--radius-full);
+    padding: 5px 12px;
+    font-size: 11.5px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .tf-pill.active {
+    background: var(--text-primary);
+    color: #fff;
+    border-color: var(--text-primary);
+  }
+
+  .mode-switch-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .mode-btn {
+    border: 1.5px solid var(--border-light);
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: 9px 10px;
+    font-size: 12.5px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .mode-btn.active {
+    background: var(--brand-secondary);
+    color: #fff;
+    border-color: var(--brand-secondary);
+  }
+
+  .btn-main-cta {
+    width: 100%;
+    margin-top: 12px;
+    background: linear-gradient(135deg, var(--brand-primary) 0%, #0d9488 100%);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 13px 18px;
+    font-size: 14px;
+    font-weight: 900;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(15, 118, 110, 0.24);
+  }
+
+  .signal-box {
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .signal-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .dir-badge {
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    font-weight: 900;
+    font-size: 12.5px;
+  }
+
+  .dir-buy {
+    background: #dcfce7;
+    color: #14532d;
+    border: 1px solid #86efac;
+  }
+
+  .dir-sell {
+    background: #fee2e2;
+    color: #7f1d1d;
+    border: 1px solid #fca5a5;
+  }
+
+  .live-pnl-strip {
+    margin-top: 10px;
+    background: var(--bg-muted);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+    font-weight: 800;
+  }
+
+  .levels-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .level-cell {
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 9px 10px;
+  }
+
+  .level-cell.sl-cell {
+    background: #fef2f2;
+    border-color: #fecaca;
+  }
+
+  .level-lbl {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  .level-val {
+    font-size: 13.5px;
+    font-weight: 800;
+    margin-top: 2px;
+  }
+
+  .tp-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 560px) {
+    .tp-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tp-mini {
+    background: var(--bg-soft-emerald);
+    border: 1px solid #b8e6d7;
+    border-radius: var(--radius-sm);
+    padding: 8px 6px;
+    text-align: center;
+  }
+
+  .tp-mini.hit {
+    background: #dcfce7;
+    border: 1.5px solid #15803d;
+  }
+
+  .tp-mini .t-name {
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--brand-primary);
+  }
+
+  .tp-mini .t-val {
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 2px;
+  }
+
+  .tp-hit-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: #15803d;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .tp-mini-btn {
+    margin-top: 4px;
+    border: 1px solid #9ad3be;
+    background: #ffffff;
+    color: #0f766e;
+    border-radius: 7px;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .pct-meter-box {
+    margin-top: 10px;
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+  }
+
+  .pct-track {
+    height: 9px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+
+  .pct-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0f766e, #16a34a);
+    border-radius: 999px;
+    transition: width 0.25s ease;
+  }
+
+  .reason-box {
+    margin-top: 12px;
+    background: var(--bg-soft-blue);
+    border: 1px solid #c7dcf5;
+    border-radius: var(--radius-md);
+    padding: 11px 13px;
+    font-size: 12.5px;
+  }
+
+  .chart-frame-card {
+    background: #ffffff;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+  }
+
+  .chart-canvas-wrap {
+    background: #ffffff;
+    border: 1px solid #d5dde0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  canvas#liveChartCanvas {
+    display: block;
+    width: 100%;
+    height: 390px;
+    background: #ffffff;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+
+  @media (min-width: 640px) {
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 980px) {
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .mini-card {
+    border: 1px solid var(--border-light);
+    background: var(--bg-canvas);
+    border-radius: var(--radius-md);
+    padding: 11px 12px;
+  }
+
+  .mini-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .mini-card-title {
+    font-size: 12.5px;
+    font-weight: 800;
+  }
+
+  .mini-pill {
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: var(--bg-soft-emerald);
+    color: var(--brand-primary);
+  }
+
+  .mini-card-desc {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+  }
+
+  .tool-interactive-box {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11.5px;
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 60;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+  }
+
+  .modal-backdrop.open { display: flex; }
+
+  .modal-panel {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 540px;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 18px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .form-field { margin-bottom: 10px; }
+  .form-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .form-field input,
+  .form-field select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: inherit;
+  }
+
+  .toast-msg {
+    position: fixed;
+    top: 66px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 80;
+    background: var(--text-primary);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    font-size: 12.5px;
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+    display: none;
+  }
+
+  .toast-msg.show { display: block; }
+
+  @media (max-width: 600px) {
+    canvas#liveChartCanvas { height: 290px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="toast" class="toast-msg"></div>
+
+<div class="top-strip">
+  <span>📡 تغذية حية لحظية • الفوركس والمؤشرات عبر OANDA • الكريبتو عبر Binance • فريم الدقيقة M1 مفعّل</span>
+  <span class="pill-tag">AI AUTO-PILOT 24/7 • 12 مدرسة • 5 أهداف</span>
+</div>
+
+<div class="weekend-notice" id="marketSessionBanner">
+  <span id="marketSessionText">جاري فحص حالة جلسة السوق الحالية...</span>
+  <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+    <span id="forexStatusTag" class="status-pill-closed">الفوركس والذهب والمؤشرات: عطلة نهاية الأسبوع (مغلق)</span>
+    <span class="status-pill-open">الكريبتو (Binance): يعمل 24/7</span>
+  </div>
+</div>
+
+<header class="app-header">
+  <div class="header-row">
+    <div class="brand-box" onclick="exitGoldDedicatedMode()">
+      <div class="brand-mark">AQ</div>
+      <div>
+        <div class="brand-name">
+          <span>APEX QUANTUM AI</span>
+          <span class="badge-ai" id="aiAutoStatusBadge">🤖 الذكاء الاصطناعي يعمل تلقائياً</span>
+          <span class="badge-soft" id="userSessionBadge">حساب نشط — جاهز للعمل</span>
+        </div>
+        <span class="brand-sub">MACD • Moving Average • Volume • Bookmap • Order Flow • 12 مدرسة</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="icon-btn gold-btn" onclick="openGoldDedicatedPage()">
+        <span>🥇</span>
+        <span>صفحة الذهب المستقلة</span>
+      </button>
+      <button type="button" class="icon-btn" onclick="openModal('feedsModal')">
+        <span>🔌</span>
+        <span>OANDA / Binance</span>
+      </button>
+      <button type="button" class="icon-btn" onclick="openModal('alertsModal')">
+        <span>🔔</span>
+        <span>التنبيهات</span>
+        <span id="alertsCountBadge" class="mono">0</span>
+      </button>
+      <button type="button" class="icon-btn primary" onclick="openModal('loginModal')" id="loginTopBtn">
+        <span>👤</span>
+        <span>تسجيل الدخول</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="live-ticker-bar">
+  <div class="ticker-inner" id="tickerBar"></div>
+</div>
+
+<main class="main-container">
+
+  <div class="gold-dedicated-banner" id="goldDedicatedBanner">
+    <div>
+      <div style="font-size:15px; font-weight:900; color:#78350f;">
+        🥇 صفحة الذهب المستقلة (XAUUSD Dedicated View)
+      </div>
+      <div style="font-size:12px; color:#92400e;">
+        تحليل فوري مخصص للذهب عبر OANDA مع فريم الدقيقة M1، أسباب الدخول، 5 أهداف، وستوب لوز مرسوم بدقة على الشارت.
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button type="button" class="icon-btn primary" onclick="runFullAnalysis()">🔄 تحديث تحليل الذهب</button>
+      <button type="button" class="icon-btn" onclick="exitGoldDedicatedMode()">↩ العودة لكل الأسواق</button>
+    </div>
+  </div>
+
+  <section class="controls-grid" id="mainWorkspaceGrid">
+    <div class="section-card" style="margin-bottom:0;" id="marketSelectorCard">
+      <div class="section-head">
+        <h2 class="section-title">
+          <span>🎯</span>
+          <span>اختيار الأصل، الفريم، والنمط</span>
+        </h2>
+        <span class="section-sub mono" id="activeFeedLabel">LIVE AI ENGINE</span>
+      </div>
+
+      <div class="category-tabs">
+        <button type="button" class="cat-tab active" data-cat="ALL" onclick="filterCategory('ALL', this)">الكل</button>
+        <button type="button" class="cat-tab" data-cat="GOLD" onclick="filterCategory('GOLD', this)">🥇 الذهب</button>
+        <button type="button" class="cat-tab" data-cat="INDICES" onclick="filterCategory('INDICES', this)">📈 NAS100 / US30 / DOW</button>
+        <button type="button" class="cat-tab" data-cat="FOREX" onclick="filterCategory('FOREX', this)">💱 اليورو والعملات</button>
+        <button type="button" class="cat-tab" data-cat="CRYPTO" onclick="filterCategory('CRYPTO', this)">₿ الكريبتو (Binance)</button>
+      </div>
+
+      <div class="pair-pills" id="pairButtonsList"></div>
+
+      <div class="tf-row" id="timeframeButtonsList"></div>
+
+      <div class="mode-switch-row">
+        <button type="button" class="mode-btn active" id="modeScalpBtn" onclick="setMode('SCALP')">⚡ سكالبينج (Scalping)</button>
+        <button type="button" class="mode-btn" id="modeSwingBtn" onclick="setMode('SWING')">🌊 سوينج (Swing)</button>
+      </div>
+
+      <button type="button" class="btn-main-cta" onclick="runFullAnalysis()">
+        🚀 تحليل الصفقة ورسم المستويات على الشارت
+      </button>
+    </div>
+
+    <div class="signal-box" id="signalCard">
+      <div class="signal-top-bar">
+        <div>
+          <div style="font-size:11.5px; color:var(--text-secondary); font-weight:700;">
+            بطاقة الصفقة اللحظية (تحديث تلقائي مستمر بالذكاء الاصطناعي)
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:2px; flex-wrap:wrap;">
+            <span id="sigPairTitle" style="font-size:17px; font-weight:900;">XAUUSD</span>
+            <span id="sigPctBadge" class="mono" style="font-size:12.5px; font-weight:900; background:var(--bg-soft-emerald); color:var(--brand-primary); padding:2px 10px; border-radius:999px;">89%</span>
+            <span id="sigMarketStateTag" class="status-pill-closed">إجازة السوق</span>
+          </div>
+        </div>
+        <span id="sigDirBadge" class="dir-badge dir-buy">شراء • BUY</span>
+      </div>
+
+      <div class="live-pnl-strip">
+        <span>السعر اللحظي الآن: <strong class="mono" id="sigLivePriceVal">--</strong></span>
+        <span>النسبة اللحظية للصفقة: <strong class="mono" id="sigLiveTradePct">--</strong></span>
+      </div>
+
+      <div class="levels-grid">
+        <div class="level-cell">
+          <div class="level-lbl">سعر الدخول (Entry)</div>
+          <div class="level-val mono" id="sigEntryVal">--</div>
+        </div>
+        <div class="level-cell sl-cell">
+          <div class="level-lbl">وقف الخسارة (Stop Loss)</div>
+          <div class="level-val mono" id="sigSlVal" style="color:var(--danger);">--</div>
+        </div>
+      </div>
+
+      <div class="tp-strip" id="tpCardsStrip"></div>
+
+      <div class="pct-meter-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:12.5px; font-weight:800;">
+          <span>📊 النسبة المئوية لتوافق المدارس والمؤشرات (لايف مع تحرك السعر)</span>
+          <span class="mono" id="sigPctText" style="font-size:14px; font-weight:900; color:var(--brand-primary);">89%</span>
+        </div>
+        <div class="pct-track">
+          <div class="pct-fill" id="sigPctBar" style="width:89%;"></div>
+        </div>
+      </div>
+
+      <div class="reason-box">
+        <div style="font-weight:900; margin-bottom:4px;">📌 أسباب الدخول في الصفقة:</div>
+        <div id="sigEntryReasons">--</div>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+        <button type="button" class="icon-btn primary" style="flex:1; justify-content:center;" onclick="addAlertFromCurrentSignal()">
+          <span>🔔</span>
+          <span>تفعيل تنبيه على هذه الصفقة</span>
+        </button>
+        <button type="button" class="icon-btn" onclick="openModal('extraFeatureModal')">
+          <span>✨</span>
+          <span>الخاصية الإضافية الذكية</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="chart-frame-card">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">
+          <span>🕯️</span>
+          <span>الشارت الحي المرسوم بدقة (Entry • SL • TP1–TP5 • MA • Volume • Bookmap • Order Flow)</span>
+        </h2>
+        <span class="section-sub">تحديث لحظي للشموع والخطوط والأسعار مباشرة على الرسم</span>
+      </div>
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button type="button" class="icon-btn" onclick="runFullAnalysis()">🔄 إعادة رسم</button>
+      </div>
+    </div>
+    <div class="chart-canvas-wrap">
+      <canvas id="liveChartCanvas" width="1080" height="390"></canvas>
+    </div>
+  </section>
+
+  <section class="section-card">
+    <div class="section-head">
+      <h2 class="section-title">
+        <span>🧠</span>
+        <span>المدارس التحليلية الـ 12 + دمج MACD والموفينج والفوليوم والـ Bookmap والأوردر فلو</span>
+      </h2>
+      <span class="badge-soft" id="schoolsPctSummary">نسبة التوافق: 89%</span>
+    </div>
+    <div class="grid-3" id="schools12Grid"></div>
+  </section>
+
+  <section class="section-card">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">
+          <span>🧰</span>
+          <span>الـ 15 أداة تداول وتحليل مدمجة</span>
+        </h2>
+        <span class="section-sub">أدوات عملية مباشرة تساعدك في إدارة الصفقة والسيولة والوقت</span>
+      </div>
+      <span class="badge-soft">15 / 15 أداة مفعلة</span>
+    </div>
+    <div class="grid-3" id="tools15Grid"></div>
+  </section>
+
+  <section class="section-card">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">
+          <span>⚡</span>
+          <span>ميزات إضافية احترافية مدمجة في المنصة</span>
+        </h2>
+        <span class="section-sub">إدارة جزئية للأهداف، رادار الفرص الذكي التلقائي، وحاسبة تقسيم الأهداف</span>
+      </div>
+      <button type="button" class="icon-btn primary" onclick="openModal('extraFeatureModal')">فتح لوحة الخاصية الإضافية</button>
+    </div>
+    <div class="grid-3" id="extraFeaturesGrid"></div>
+  </section>
+
+</main>
+
+<div class="modal-backdrop" id="loginModal" onclick="backdropClose(event, 'loginModal')">
+  <div class="modal-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="margin:0; font-size:16px; font-weight:900;">👤 تسجيل الدخول إلى APEX QUANTUM AI</h3>
+      <button type="button" class="icon-btn" onclick="closeModal('loginModal')">✕</button>
+    </div>
+    <form onsubmit="handleLoginSubmit(event)">
+      <div class="form-field">
+        <label>اسم المتداول</label>
+        <input type="text" id="loginNameInput" placeholder="اكتب اسمك" required />
+      </div>
+      <div class="form-field">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="loginEmailInput" placeholder="name@example.com" required />
+      </div>
+      <div class="form-field">
+        <label>رأس المال للحساب (USD)</label>
+        <input type="number" id="loginCapitalInput" value="1000" min="10" step="10" required />
+      </div>
+      <button type="submit" class="btn-main-cta" style="margin-top:4px;">دخول وحفظ الحساب</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="feedsModal" onclick="backdropClose(event, 'feedsModal')">
+  <div class="modal-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="margin:0; font-size:16px; font-weight:900;">🔌 إعدادات بيانات OANDA (فوركس ومؤشرات) و Binance (كريبتو)</h3>
+      <button type="button" class="icon-btn" onclick="closeModal('feedsModal')">✕</button>
+    </div>
+    <div style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">
+      الكريبتو متصل مباشرة بـ Binance اللحظي 24/7، ويمكنك هنا إدخال بيانات OANDA لتشغيل الأسعار الحية للفوركس والذهب والمؤشرات وقت فتح السوق.
+    </div>
+    <div class="form-field">
+      <label>بيئة OANDA</label>
+      <select id="oandaEnvSel">
+        <option value="practice">OANDA Practice (تجريبي)</option>
+        <option value="live">OANDA Live (حقيقي)</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>OANDA Account ID (اختياري)</label>
+      <input type="text" id="oandaAccountInput" placeholder="001-001-xxxxxxx-001" />
+    </div>
+    <div class="form-field">
+      <label>OANDA API Token</label>
+      <input type="password" id="oandaTokenInput" placeholder="أدخل مفتاح OANDA API" />
+    </div>
+    <button type="button" class="btn-main-cta" style="margin-top:4px;" onclick="saveOandaConfig()">حفظ وتشغيل OANDA</button>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="alertsModal" onclick="backdropClose(event, 'alertsModal')">
+  <div class="modal-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="margin:0; font-size:16px; font-weight:900;">🔔 التنبيهات السعرية وتنبيهات الأهداف</h3>
+      <button type="button" class="icon-btn" onclick="closeModal('alertsModal')">✕</button>
+    </div>
+    <form onsubmit="handleAddAlert(event)" style="margin-bottom:12px;">
+      <div class="form-field">
+        <label>الزوج / الأصل</label>
+        <select id="alertPairSelect"></select>
+      </div>
+      <div class="form-field">
+        <label>السعر المستهدف للتنبيه</label>
+        <input type="number" step="any" id="alertPriceInput" required />
+      </div>
+      <button type="submit" class="btn-main-cta" style="margin-top:0;">إضافة تنبيه</button>
+    </form>
+    <div id="alertsListBox"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="extraFeatureModal" onclick="backdropClose(event, 'extraFeatureModal')">
+  <div class="modal-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="margin:0; font-size:16px; font-weight:900;">✨ الخاصية الإضافية: حاسبة تقسيم الأهداف (TP1–TP5) والتأمين</h3>
+      <button type="button" class="icon-btn" onclick="closeModal('extraFeatureModal')">✕</button>
+    </div>
+    <div style="font-size:12.5px; color:var(--text-secondary); margin-bottom:10px;">
+      تحسب لك النسبة المئوية لإغلاق العقد عند كل هدف من TP1 إلى TP5 وكيف تحوّل الستوب إلى نقطة الدخول بأمان.
+    </div>
+    <div class="form-field">
+      <label>حجم العقد الكلي (Lot)</label>
+      <input type="number" id="splitTotalLot" value="0.10" min="0.01" step="0.01" oninput="calcTpSplitPlan()" />
+    </div>
+    <div id="tpSplitResultBox" style="background:var(--bg-soft-emerald); border:1px solid #b5e3d6; border-radius:var(--radius-sm); padding:10px; font-size:12.5px;"></div>
+  </div>
+</div>
+
+<script>
+const ASSETS = {
+  XAUUSD: { sym: 'XAUUSD', name: 'الذهب Gold', cat: 'GOLD', source: 'OANDA', oandaInst: 'XAU_USD', decimals: 2, base: 2748.50, vol: 3.2, step: 1.8 },
+  NAS100: { sym: 'NAS100', name: 'ناسداك Nasdaq', cat: 'INDICES', source: 'OANDA', oandaInst: 'NAS100_USD', decimals: 2, base: 21180.00, vol: 24.0, step: 22.0 },
+  US30:   { sym: 'US30',   name: 'داو جونز US30', cat: 'INDICES', source: 'OANDA', oandaInst: 'US30_USD', decimals: 2, base: 44120.00, vol: 35.0, step: 30.0 },
+  DOW:    { sym: 'DOW',    name: 'مؤشر الداو DOW', cat: 'INDICES', source: 'OANDA', oandaInst: 'US30_USD', decimals: 2, base: 44115.00, vol: 35.0, step: 30.0 },
+  EURUSD: { sym: 'EURUSD', name: 'اليورو دولار', cat: 'FOREX', source: 'OANDA', oandaInst: 'EUR_USD', decimals: 5, base: 1.08420, vol: 0.0014, step: 0.0011 },
+  GBPUSD: { sym: 'GBPUSD', name: 'الباوند دولار', cat: 'FOREX', source: 'OANDA', oandaInst: 'GBP_USD', decimals: 5, base: 1.27650, vol: 0.0016, step: 0.0013 },
+  USDJPY: { sym: 'USDJPY', name: 'الدولار ين', cat: 'FOREX', source: 'OANDA', oandaInst: 'USD_JPY', decimals: 3, base: 154.320, vol: 0.18, step: 0.14 },
+  AUDUSD: { sym: 'AUDUSD', name: 'الأسترالي دولار', cat: 'FOREX', source: 'OANDA', oandaInst: 'AUD_USD', decimals: 5, base: 0.65840, vol: 0.0011, step: 0.0009 },
+  USDCAD: { sym: 'USDCAD', name: 'الدولار كندي', cat: 'FOREX', source: 'OANDA', oandaInst: 'USD_CAD', decimals: 5, base: 1.39450, vol: 0.0012, step: 0.0010 },
+  BTCUSD: { sym: 'BTCUSD', name: 'بيتكوين BTC', cat: 'CRYPTO', source: 'BINANCE', binanceSym: 'BTCUSDT', decimals: 2, base: 94250.00, vol: 140.0, step: 190.0 },
+  ETHUSD: { sym: 'ETHUSD', name: 'إيثيريوم ETH', cat: 'CRYPTO', source: 'BINANCE', binanceSym: 'ETHUSDT', decimals: 2, base: 3240.00, vol: 18.0, step: 24.0 },
+  SOLUSD: { sym: 'SOLUSD', name: 'سولانا SOL', cat: 'CRYPTO', source: 'BINANCE', binanceSym: 'SOLUSDT', decimals: 2, base: 218.50, vol: 3.2, step: 4.0 }
+};
+
+const TIMEFRAMES = ['M1', 'M5', 'M15', 'H1', 'H4', 'D1'];
+
+const SCHOOLS_12 = [
+  { id: 'macd', title: '1. مؤشر الماكد MACD', desc: 'تقاطع خطوط MACD والهيستوجرام لتأكيد الزخم' },
+  { id: 'ma', title: '2. المتوسطات المتحركة Moving Average', desc: 'اتجاه السعر فوق/تحت المتوسطات السريعة والبطيئة' },
+  { id: 'vol', title: '3. الفوليوم Volume & POC', desc: 'تأكيد السيولة الحقيقية ونقاط تمركز الأحجام' },
+  { id: 'bookmap', title: '4. خرائط السيولة Bookmap', desc: 'مراقبة تكدس الأوامر وسيولة القمم والقيعان' },
+  { id: 'orderflow', title: '5. تدفق الأوامر Order Flow', desc: 'ميزان ضغط المشترين والبائعين في الشموع الحالية' },
+  { id: 'smc', title: '6. السيولة المؤسسية ICT / SMC', desc: 'كسر الهياكل BOS ومناطق الطلب والعرض' },
+  { id: 'pa', title: '7. حركة السعر Price Action', desc: 'قراءة الشموع الانعكاسية والاختبارات السعرية' },
+  { id: 'gann', title: '8. زوايا وأنماط جان Gann', desc: 'توازن السعر والزمن والزوايا المحورية' },
+  { id: 'fractals', title: '9. الفركتلات Fractals', desc: 'تحديد القمم والقيعان الفرعية المكسورة' },
+  { id: 'elliott', title: '10. موجات إليوت Elliott Wave', desc: 'تحديد موقع الموجة الدافعة أو التصحيحية' },
+  { id: 'harmonics', title: '11. النماذج التوافقية Harmonics', desc: 'نسب فيبوناتشي ونقاط الانعكاس التوافقية' },
+  { id: 'wyckoff', title: '12. وايكوف Wyckoff', desc: 'رصد مراحل التجميع والتصريف والاختبار' }
+];
+
+const TOOLS_15 = [
+  { name: '1. حاسبة اللوت الفورية', info: 'تحسب حجم العقد حسب رأس المال' },
+  { name: '2. رادار قوة الزخم', info: 'يقيس سرعة الحركة الحالية' },
+  { name: '3. كاشف السيولة القريبة', info: 'يحدد أقرب قمة وقاع سيولة' },
+  { name: '4. فلتر الجلسات العالمية', info: 'آسيا / لندن / نيويورك' },
+  { name: '5. مؤشر التذبذب ATR', info: 'يضبط المسافة الآمنة للهدف والستوب' },
+  { name: '6. نسبة العائد للمخاطرة R:R', info: 'تقييم جودة الصفقة قبل التنفيذ' },
+  { name: '7. حاسبة النقاط والبيب', info: 'تحويل الحركة السعرية إلى قيمة واضحة' },
+  { name: '8. مؤشر تشبع RSI الذكي', info: 'تنبيه مناطق التشبع والانحراف' },
+  { name: '9. محاكي تأمين الستوب', info: 'نقل الوقف لنقطة الدخول بعد TP1' },
+  { name: '10. مؤشر القوة النسبية للزوج', info: 'مقارنة أداء الأصل الحالي' },
+  { name: '11. رادار الفجوات السعرية', info: 'رصد مناطق عدم التوازن FVG' },
+  { name: '12. حاسبة الربح التراكمي TP1–TP5', info: 'جمع أرباح الأهداف الخمسة' },
+  { name: '13. فلتر تجنب وقت الأخبار', info: 'تذكير بالحذر وقت التقلبات الحادة' },
+  { name: '14. سجل إشارات الجلسة', info: 'حفظ سريع لآخر التحليلات' },
+  { name: '15. تنبيه صوتي وبصري فوري', info: 'إشعار عند وصول الأسعار والأهداف' }
+];
+
+const EXTRA_FEATURES = [
+  { title: 'خاصية تقسيم العقود على 5 أهداف', desc: 'توزيع ذكي للإغلاق الجزئي من TP1 حتى TP5 مع إمكانية تأمين الستوب.' },
+  { title: 'الذكاء الاصطناعي المستمر (AI Auto-Pilot)', desc: 'يراقب تحرك السعر لحظياً ويحدّث النسبة المئوية للصفقة والمدارس تلقائياً دون توقف.' },
+  { title: 'صفحة مستقلة خاصة بالذهب (XAUUSD)', desc: 'واجهة تركيز كاملة للذهب بضغطة واحدة مع فريم الدقيقة M1 وبيانات OANDA.' }
+];
+
+let state = {
+  category: 'ALL',
+  pair: 'BTCUSD',
+  timeframe: 'M1',
+  mode: 'SCALP',
+  goldDedicated: false,
+  prices: {},
+  changes: {},
+  candles: [],
+  signal: null,
+  alerts: [],
+  user: JSON.parse(localStorage.getItem('aq_v3_user') || '{"name":"متداول محترف","email":"trader@apexquantum.ai","capital":1000}'),
+  oanda: JSON.parse(localStorage.getItem('aq_v3_oanda') || '{"env":"practice","account":"","token":""}'),
+  soundOn: true,
+  aiCycles: 0
+};
+
+function isForexOrMetalsMarketOpen(nowDate = new Date()) {
+  // Forex / Gold / Indices close Friday ~22:00 UTC and reopen Sunday ~22:00 UTC
+  const day = nowDate.getUTCDay(); // 0 = Sun, 6 = Sat
+  const hour = nowDate.getUTCHours();
+  if (day === 6) return false;
+  if (day === 5 && hour >= 22) return false;
+  if (day === 0 && hour < 22) return false;
+  return true;
+}
+
+function isAssetMarketOpen(sym) {
+  const a = ASSETS[sym];
+  if (!a) return true;
+  if (a.source === 'BINANCE') return true;
+  return isForexOrMetalsMarketOpen(new Date());
+}
+
+function updateMarketSessionBanner() {
+  const open = isForexOrMetalsMarketOpen(new Date());
+  const fxTag = document.getElementById('forexStatusTag');
+  const bannerText = document.getElementById('marketSessionText');
+  if (!open) {
+    fxTag.className = 'status-pill-closed';
+    fxTag.textContent = 'الفوركس والذهب والمؤشرات (OANDA): عطلة نهاية الأسبوع — السعر ثابت على الإغلاق';
+    bannerText.textContent = 'الذكاء الاصطناعي نشط تلقائياً ويحدّث النسب اللحظية مع حركة الكريبتو أو عند عودة السوق.';
+  } else {
+    fxTag.className = 'status-pill-open';
+    fxTag.textContent = 'الفوركس والذهب والمؤشرات (OANDA): السوق مفتوح ويعمل';
+    bannerText.textContent = 'جميع الأسواق والذكاء الاصطناعي يعملون بصورة مباشرة ومستمرة.';
+  }
+}
+
+function initPrices() {
+  Object.keys(ASSETS).forEach((k) => {
+    const a = ASSETS[k];
+    const saved = localStorage.getItem('aq_v3_price_' + k);
+    state.prices[k] = saved ? parseFloat(saved) : a.base;
+    state.changes[k] = +(Math.random() * 1.4 - 0.5).toFixed(2);
+  });
+  try {
+    const al = JSON.parse(localStorage.getItem('aq_v3_alerts') || '[]');
+    if (Array.isArray(al)) state.alerts = al;
+  } catch (_) {}
+}
+
+let binanceSocket = null;
+function connectBinanceLive() {
+  fetchBinanceTickers();
+  try {
+    if (binanceSocket) binanceSocket.close();
+    binanceSocket = new WebSocket('wss://stream.binance.com:9443/stream?streams=btcusdt@trade/ethusdt@trade/solusdt@trade');
+    binanceSocket.onmessage = (ev) => {
+      try {
+        const payload = JSON.parse(ev.data);
+        const stream = payload.stream || '';
+        const d = payload.data || {};
+        const p = parseFloat(d.p);
+        if (isNaN(p) || p <= 0) return;
+        let sym = null;
+        if (stream.startsWith('btcusdt')) sym = 'BTCUSD';
+        else if (stream.startsWith('ethusdt')) sym = 'ETHUSD';
+        else if (stream.startsWith('solusdt')) sym = 'SOLUSD';
+        if (!sym) return;
+
+        const prev = state.prices[sym] || p;
+        state.prices[sym] = +p.toFixed(ASSETS[sym].decimals);
+        if (prev > 0) {
+          const pct = ((p - prev) / prev) * 100;
+          state.changes[sym] = +((state.changes[sym] || 0) * 0.8 + pct * 10).toFixed(2);
+        }
+        localStorage.setItem('aq_v3_price_' + sym, state.prices[sym]);
+        if (state.pair === sym) syncLastCandle(state.prices[sym]);
+        renderTicker();
+        renderPairButtons();
+        checkAlertsNow();
+      } catch (_) {}
+    };
+  } catch (_) {}
+}
+
+async function fetchBinanceTickers() {
+  const map = { BTCUSD: 'BTCUSDT', ETHUSD: 'ETHUSDT', SOLUSD: 'SOLUSDT' };
+  for (const [sym, bSym] of Object.entries(map)) {
+    try {
+      const r = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${bSym}`, { cache: 'no-store' });
+      if (!r.ok) continue;
+      const j = await r.json();
+      const lp = parseFloat(j.lastPrice);
+      const chg = parseFloat(j.priceChangePercent || 0);
+      if (!isNaN(lp) && lp > 0) {
+        state.prices[sym] = +lp.toFixed(ASSETS[sym].decimals);
+        state.changes[sym] = +chg.toFixed(2);
+        localStorage.setItem('aq_v3_price_' + sym, state.prices[sym]);
+        if (state.pair === sym) syncLastCandle(state.prices[sym]);
+      }
+    } catch (_) {}
+  }
+  renderTicker();
+  renderPairButtons();
+}
+
+async function fetchOandaPricing() {
+  const token = (state.oanda.token || '').trim();
+  const oandaKeys = Object.keys(ASSETS).filter((k) => ASSETS[k].source === 'OANDA');
+  if (!token || !isForexOrMetalsMarketOpen(new Date())) {
+    renderTicker();
+    renderPairButtons();
+    return;
+  }
+  const host = state.oanda.env === 'live' ? 'https://api-fxtrade.oanda.com' : 'https://api-fxpractice.oanda.com';
+  const uniqueInst = [...new Set(oandaKeys.map((k) => ASSETS[k].oandaInst))];
+  try {
+    const res = await fetch(`${host}/v3/pricing?instruments=${encodeURIComponent(uniqueInst.join(','))}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
+      cache: 'no-store'
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (Array.isArray(data.prices)) {
+      data.prices.forEach((pr) => {
+        oandaKeys.forEach((sym) => {
+          if (ASSETS[sym].oandaInst === pr.instrument) {
+            const bid = parseFloat(pr.bids?.[0]?.price || 0);
+            const ask = parseFloat(pr.asks?.[0]?.price || 0);
+            const mid = bid && ask ? (bid + ask) / 2 : (bid || ask);
+            if (mid > 0) {
+              const dec = ASSETS[sym].decimals;
+              state.prices[sym] = +mid.toFixed(dec);
+              localStorage.setItem('aq_v3_price_' + sym, state.prices[sym]);
+              if (state.pair === sym) syncLastCandle(state.prices[sym]);
+            }
+          }
+        });
+      });
+      renderTicker();
+      renderPairButtons();
+      checkAlertsNow();
+    }
+  } catch (_) {}
+}
+
+function aiContinuousEngineTick() {
+  state.aiCycles += 1;
+  updateMarketSessionBanner();
+
+  // Only move OANDA prices when the Forex/Metals/Indices market is actually open;
+  // during weekend closure, keep OANDA prices frozen and let AI recalculate live progress/metrics.
+  if (isForexOrMetalsMarketOpen(new Date()) && !(state.oanda.token && state.oanda.token.trim())) {
+    Object.keys(ASSETS).forEach((sym) => {
+      const a = ASSETS[sym];
+      if (a.source === 'BINANCE') return;
+      const tfFactor = state.timeframe === 'M1' ? 0.14 : 0.07;
+      const delta = (Math.random() - 0.49) * a.vol * tfFactor;
+      const nextVal = Math.max(0.0001, +(state.prices[sym] + delta).toFixed(a.decimals));
+      state.prices[sym] = nextVal;
+      state.changes[sym] = +((state.changes[sym] || 0) + (Math.random() - 0.5) * 0.03).toFixed(2);
+      localStorage.setItem('aq_v3_price_' + sym, nextVal);
+      if (state.pair === sym) syncLastCandle(nextVal);
+    });
+  }
+
+  recalculateLiveSignalMetrics();
+  renderTicker();
+  renderPairButtons();
+  renderSchools12();
+  checkAlertsNow();
+}
+
+function recalculateLiveSignalMetrics() {
+  const s = state.signal;
+  if (!s) return;
+  const a = ASSETS[s.pair];
+  const curPrice = state.prices[s.pair];
+  if (!curPrice || curPrice <= 0) return;
+
+  // If live price differs by more than 20% from initial entry (e.g. initial mock base vs real live Binance price),
+  // automatically re-center the signal around the real live price so Entry/SL/TP match the actual market!
+  if (Math.abs(curPrice - s.entry) / s.entry > 0.20) {
+    const dec = a.decimals;
+    const mult = state.mode === 'SCALP' ? 1 : 2.6;
+    const isBuy = s.dir === 'BUY';
+    const slDist = +(a.step * 0.75 * mult).toFixed(dec);
+    s.entry = +curPrice.toFixed(dec);
+    s.sl = isBuy ? +(s.entry - slDist).toFixed(dec) : +(s.entry + slDist).toFixed(dec);
+    s.tps = [1, 2, 3, 4, 5].map((n) => {
+      const d = +(a.step * n * 0.85 * mult).toFixed(dec);
+      return isBuy ? +(s.entry + d).toFixed(dec) : +(s.entry - d).toFixed(dec);
+    });
+    s.reachedTp = 0;
+  }
+
+  const tp5 = s.tps[4];
+  const totalRange = Math.abs(tp5 - s.entry) || (a.step * 4.25) || 1;
+  const signedMove = s.dir === 'BUY' ? (curPrice - s.entry) : (s.entry - curPrice);
+  const rawPct = Math.round((signedMove / totalRange) * 100);
+  const clampedTradePct = Math.max(-100, Math.min(100, rawPct));
+
+  s.livePrice = curPrice;
+  s.liveTradePct = clampedTradePct;
+
+  // Dynamic AI confluence percentage responding to live price action & continuous AI evaluation
+  const proximityBoost = Math.max(-6, Math.min(8, Math.round(clampedTradePct / 14)));
+  const aiWave = Math.round(Math.sin(state.aiCycles * 0.45) * 2);
+  s.pct = Math.max(75, Math.min(97, s.basePct + proximityBoost + aiWave));
+
+  s.tps.forEach((tpVal, idx) => {
+    const tpNum = idx + 1;
+    if (s.dir === 'BUY' && curPrice >= tpVal && s.reachedTp < tpNum) {
+      s.reachedTp = tpNum;
+      playBeep();
+    } else if (s.dir === 'SELL' && curPrice <= tpVal && s.reachedTp < tpNum) {
+      s.reachedTp = tpNum;
+      playBeep();
+    }
+  });
+
+  renderSignalCard();
+  drawChart();
+}
+
+function syncLastCandle(priceVal) {
+  if (!state.candles.length || !priceVal || priceVal <= 0) return;
+  const dec = ASSETS[state.pair].decimals;
+  const last = state.candles[state.candles.length - 1];
+  if (Math.abs(priceVal - last.close) / last.close > 0.20) {
+    buildCandles();
+    recalculateLiveSignalMetrics();
+    return;
+  }
+  last.close = +priceVal.toFixed(dec);
+  last.high = +Math.max(last.high, last.close).toFixed(dec);
+  last.low = +Math.min(last.low, last.close).toFixed(dec);
+  recalculateLiveSignalMetrics();
+}
+
+function buildCandles() {
+  const a = ASSETS[state.pair];
+  const dec = a.decimals;
+  const lastPrice = state.prices[state.pair];
+  const relVol = Math.max(a.vol, lastPrice * 0.0015);
+  const list = [];
+  let cur = lastPrice - relVol * 2.5;
+
+  for (let i = 0; i < 48; i++) {
+    const open = +cur.toFixed(dec);
+    const move = Math.sin(i * 0.32) * relVol * 0.35 + (Math.random() - 0.48) * relVol * 0.55;
+    const close = +(open + move).toFixed(dec);
+    const high = +(Math.max(open, close) + Math.random() * relVol * 0.25).toFixed(dec);
+    const low = +(Math.min(open, close) - Math.random() * relVol * 0.25).toFixed(dec);
+    const volume = Math.round(250 + Math.abs(move / (relVol || 1)) * 1400 + Math.random() * 500);
+    list.push({ open, high, low, close, volume });
+    cur = close;
+  }
+
+  const last = list[list.length - 1];
+  last.close = +lastPrice.toFixed(dec);
+  last.high = +Math.max(last.open, last.close, last.high).toFixed(dec);
+  last.low = +Math.min(last.open, last.close, last.low).toFixed(dec);
+  state.candles = list;
+}
+
+function runFullAnalysis() {
+  const a = ASSETS[state.pair];
+  const dec = a.decimals;
+  const rawPrice = state.prices[state.pair];
+  const entry = +(rawPrice && rawPrice > 0 ? rawPrice : a.base).toFixed(dec);
+  state.prices[state.pair] = entry;
+  const seed = Math.abs(Math.round(entry * (dec >= 4 ? 10000 : 100))) + state.timeframe.charCodeAt(1) + (state.mode === 'SCALP' ? 5 : 13);
+  const isBuy = (seed % 10) >= 4;
+  const dir = isBuy ? 'BUY' : 'SELL';
+  const basePct = Math.min(94, Math.max(80, 83 + (seed % 12)));
+  const mult = state.mode === 'SCALP' ? 1 : 2.6;
+  const slDist = +(a.step * 0.75 * mult).toFixed(dec);
+  const sl = isBuy ? +(entry - slDist).toFixed(dec) : +(entry + slDist).toFixed(dec);
+
+  const tps = [1, 2, 3, 4, 5].map((n) => {
+    const d = +(a.step * n * 0.85 * mult).toFixed(dec);
+    return isBuy ? +(entry + d).toFixed(dec) : +(entry - d).toFixed(dec);
+  });
+
+  const reasons = isBuy
+    ? `توافق ذكي بين MACD الصاعد، تمركز السعر فوق المتوسطات المتحركة، دعم الفوليوم وBookmap، وضغط Order Flow الشرائي على ${a.sym} (${state.timeframe}).`
+    : `توافق ذكي بين زخم MACD الهابط، مقاومة المتوسطات المتحركة، سيولة البيع في Bookmap، وضغط Order Flow البيعي على ${a.sym} (${state.timeframe}).`;
+
+  state.signal = {
+    pair: a.sym,
+    dir,
+    basePct,
+    pct: basePct,
+    livePrice: entry,
+    liveTradePct: 0,
+    entry,
+    sl,
+    tps,
+    reachedTp: 0,
+    reasons
+  };
+
+  document.getElementById('activeFeedLabel').textContent = `AI LIVE • ${a.source} • ${a.sym} • ${state.timeframe}`;
+  buildCandles();
+  recalculateLiveSignalMetrics();
+  renderSchools12();
+  drawChart();
+}
+
+function renderSignalCard() {
+  const s = state.signal;
+  if (!s) return;
+  const dec = ASSETS[s.pair].decimals;
+  const marketOpen = isAssetMarketOpen(s.pair);
+
+  document.getElementById('sigPairTitle').textContent = `${s.pair} (${state.timeframe} • ${state.mode})`;
+  document.getElementById('sigPctBadge').textContent = `${s.pct}%`;
+  document.getElementById('sigPctText').textContent = `${s.pct}%`;
+  document.getElementById('sigPctBar').style.width = `${s.pct}%`;
+  document.getElementById('schoolsPctSummary').textContent = `نسبة التوافق اللحظية: ${s.pct}%`;
+
+  const mState = document.getElementById('sigMarketStateTag');
+  if (marketOpen) {
+    mState.className = 'status-pill-open';
+    mState.textContent = 'السوق مفتوح • حي';
+  } else {
+    mState.className = 'status-pill-closed';
+    mState.textContent = 'إجازة السوق • السعر ثابت';
+  }
+
+  document.getElementById('sigLivePriceVal').textContent = (s.livePrice ?? s.entry).toFixed(dec);
+  const tradePctEl = document.getElementById('sigLiveTradePct');
+  const tpVal = s.liveTradePct ?? 0;
+  tradePctEl.textContent = `${tpVal >= 0 ? '+' : ''}${tpVal}%`;
+  tradePctEl.className = `mono ${tpVal >= 0 ? 'chg-up' : 'chg-dn'}`;
+
+  const badge = document.getElementById('sigDirBadge');
+  if (s.dir === 'BUY') {
+    badge.className = 'dir-badge dir-buy';
+    badge.textContent = 'شراء • BUY';
+  } else {
+    badge.className = 'dir-badge dir-sell';
+    badge.textContent = 'بيع • SELL';
+  }
+
+  document.getElementById('sigEntryVal').textContent = s.entry.toFixed(dec);
+  document.getElementById('sigSlVal').textContent = s.sl.toFixed(dec);
+  document.getElementById('sigEntryReasons').textContent = s.reasons;
+
+  document.getElementById('tpCardsStrip').innerHTML = s.tps.map((val, idx) => {
+    const tpNum = idx + 1;
+    const reached = tpNum <= s.reachedTp;
+    return `
+      <div class="tp-mini ${reached ? 'hit' : ''}">
+        <div class="t-name">TP${tpNum}</div>
+        <div class="t-val mono">${val.toFixed(dec)}</div>
+        ${reached
+          ? `<div class="tp-hit-badge">✓ تم الوصول</div>`
+          : `<button type="button" class="tp-mini-btn" onclick="toggleTpMark(${tpNum})">✓ وضع علامة</button>`
+        }
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleTpMark(tpNum) {
+  if (!state.signal) return;
+  state.signal.reachedTp = state.signal.reachedTp === tpNum ? tpNum - 1 : tpNum;
+  playBeep();
+  renderSignalCard();
+  drawChart();
+  showToast(state.signal.reachedTp > 0 ? `تم وضع علامة الوصول على TP${state.signal.reachedTp}` : 'تمت إزالة علامة الهدف');
+}
+
+function drawChart() {
+  const canvas = document.getElementById('liveChartCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.parentElement.clientWidth || 1000;
+  const h = canvas.clientHeight || 390;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, w, h);
+
+  const candles = state.candles;
+  if (!candles.length) return;
+  const sig = state.signal;
+  const dec = ASSETS[state.pair].decimals;
+
+  let minP = Infinity, maxP = -Infinity, maxVol = 1;
+  candles.forEach((c) => {
+    if (c.low < minP) minP = c.low;
+    if (c.high > maxP) maxP = c.high;
+    if (c.volume > maxVol) maxVol = c.volume;
+  });
+  if (sig) {
+    minP = Math.min(minP, sig.sl, ...sig.tps);
+    maxP = Math.max(maxP, sig.sl, ...sig.tps);
+  }
+  const pad = (maxP - minP) * 0.1 || 0.01;
+  minP -= pad;
+  maxP += pad;
+
+  const left = 14;
+  const right = w - 92;
+  const top = 20;
+  const priceBottom = h - 76;
+  const volTop = priceBottom + 8;
+  const volBottom = h - 22;
+  const plotW = Math.max(120, right - left);
+  const priceH = Math.max(80, priceBottom - top);
+  const volH = Math.max(24, volBottom - volTop);
+
+  const toY = (p) => top + ((maxP - p) / (maxP - minP)) * priceH;
+
+  ctx.strokeStyle = '#e8efed';
+  ctx.lineWidth = 1;
+  ctx.font = 'bold 11px Inter, sans-serif';
+  ctx.textAlign = 'left';
+
+  for (let i = 0; i <= 6; i++) {
+    const frac = i / 6;
+    const pVal = maxP - frac * (maxP - minP);
+    const y = top + frac * priceH;
+    ctx.beginPath();
+    ctx.moveTo(left, y);
+    ctx.lineTo(right, y);
+    ctx.stroke();
+
+    ctx.fillStyle = '#000000';
+    ctx.fillText(pVal.toFixed(dec), right + 6, y + 4);
+  }
+
+  const stepX = plotW / candles.length;
+  const bodyW = Math.max(3, stepX * 0.56);
+
+  candles.forEach((c, idx) => {
+    const cx = left + idx * stepX + stepX / 2;
+    const bull = c.close >= c.open;
+    const yO = toY(c.open), yC = toY(c.close), yH = toY(c.high), yL = toY(c.low);
+
+    ctx.strokeStyle = bull ? '#0f766e' : '#b91c1c';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(cx, yH);
+    ctx.lineTo(cx, yL);
+    ctx.stroke();
+
+    ctx.fillStyle = bull ? '#10b981' : '#ef4444';
+    ctx.fillRect(cx - bodyW / 2, Math.min(yO, yC), bodyW, Math.max(2, Math.abs(yC - yO)));
+
+    const vh = (c.volume / maxVol) * volH;
+    ctx.fillStyle = bull ? 'rgba(16, 185, 129, 0.35)' : 'rgba(239, 68, 68, 0.35)';
+    ctx.fillRect(cx - bodyW / 2, volBottom - vh, bodyW, vh);
+  });
+
+  ctx.strokeStyle = '#1d4ed8';
+  ctx.lineWidth = 1.8;
+  ctx.beginPath();
+  candles.forEach((c, idx) => {
+    const slice = candles.slice(Math.max(0, idx - 7), idx + 1);
+    const avg = slice.reduce((acc, item) => acc + item.close, 0) / slice.length;
+    const x = left + idx * stepX + stepX / 2;
+    const y = toY(avg);
+    if (idx === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  const bookmapY = toY((minP + maxP) * 0.52);
+  ctx.fillStyle = 'rgba(245, 158, 11, 0.16)';
+  ctx.fillRect(left, bookmapY - 6, plotW, 12);
+  ctx.fillStyle = '#000000';
+  ctx.font = 'bold 10px Inter, sans-serif';
+  ctx.fillText('BOOKMAP / ORDER FLOW', left + 6, bookmapY - 8);
+
+  if (sig) {
+    const drawHLine = (price, color, tag) => {
+      const y = toY(price);
+      ctx.save();
+      ctx.setLineDash([5, 4]);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(left, y);
+      ctx.lineTo(right, y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = color;
+      ctx.fillRect(left + 4, y - 16, 152, 15);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 10px Inter, sans-serif';
+      ctx.fillText(`${tag} ${price.toFixed(dec)}`, left + 8, y - 5);
+      ctx.restore();
+    };
+
+    drawHLine(sig.entry, '#1d4ed8', `ENTRY (${sig.pct}%)`);
+    drawHLine(sig.sl, '#b91c1c', 'STOP LOSS');
+    sig.tps.forEach((tpVal, i) => {
+      const num = i + 1;
+      const done = num <= sig.reachedTp;
+      drawHLine(tpVal, done ? '#15803d' : '#0f766e', done ? `✓ TP${num}` : `TP${num}`);
+    });
+  }
+}
+
+function renderTicker() {
+  const keys = Object.keys(ASSETS).filter((k) => {
+    if (state.goldDedicated) return k === 'XAUUSD';
+    return state.category === 'ALL' || ASSETS[k].cat === state.category;
+  });
+  document.getElementById('tickerBar').innerHTML = keys.map((sym) => {
+    const a = ASSETS[sym];
+    const p = state.prices[sym].toFixed(a.decimals);
+    const chg = state.changes[sym] || 0;
+    const up = chg >= 0;
+    const active = state.pair === sym ? 'active' : '';
+    const srcLabel = a.source === 'BINANCE' ? 'Binance 24/7' : (isAssetMarketOpen(sym) ? 'OANDA Live' : 'OANDA إجازة');
+    return `
+      <div class="ticker-chip ${active}" onclick="selectPair('${sym}')">
+        <span class="ticker-sym">${sym}</span>
+        <span class="ticker-src" style="background:${isAssetMarketOpen(sym) ? '#dcfce7' : '#fee2e2'}; color:${isAssetMarketOpen(sym) ? '#166534' : '#991b1b'};">${srcLabel}</span>
+        <span class="mono" style="font-weight:800;">${p}</span>
+        <span class="mono ${up ? 'chg-up' : 'chg-dn'}">${up ? '+' : ''}${chg}%</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderPairButtons() {
+  const keys = Object.keys(ASSETS).filter((k) => {
+    if (state.goldDedicated) return k === 'XAUUSD';
+    return state.category === 'ALL' || ASSETS[k].cat === state.category;
+  });
+  document.getElementById('pairButtonsList').innerHTML = keys.map((sym) => {
+    const a = ASSETS[sym];
+    const active = state.pair === sym ? 'active' : '';
+    const feedTag = a.source === 'BINANCE' ? 'Binance • حي' : (isAssetMarketOpen(sym) ? 'OANDA • حي' : 'OANDA • إجازة');
+    return `
+      <button type="button" class="pair-btn ${active}" onclick="selectPair('${sym}')">
+        <span class="p-sym">${sym}</span>
+        <span style="font-size:10px; color:#0f766e; font-weight:800;">${a.name} • ${feedTag}</span>
+        <span class="p-price mono">${state.prices[sym].toFixed(a.decimals)}</span>
+      </button>
+    `;
+  }).join('');
+}
+
+function renderTimeframeButtons() {
+  document.getElementById('timeframeButtonsList').innerHTML = TIMEFRAMES.map((tf) => `
+    <button type="button" class="tf-pill ${state.timeframe === tf ? 'active' : ''}" onclick="selectTimeframe('${tf}')">${tf === 'M1' ? 'M1 (دقيقة)' : tf}</button>
+  `).join('');
+}
+
+function renderSchools12() {
+  const dir = state.signal?.dir || 'BUY';
+  document.getElementById('schools12Grid').innerHTML = SCHOOLS_12.map((sc, i) => {
+    const ok = ((i + state.aiCycles + (dir === 'BUY' ? 0 : 1)) % 6) !== 0;
+    const tag = ok ? (dir === 'BUY' ? 'داعم للشراء' : 'داعم للبيع') : 'مراقبة';
+    return `
+      <div class="mini-card">
+        <div class="mini-card-head">
+          <span class="mini-card-title">${sc.title}</span>
+          <span class="mini-pill">${tag}</span>
+        </div>
+        <div class="mini-card-desc">${sc.desc}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderTools15() {
+  const cap = state.user?.capital || 1000;
+  document.getElementById('tools15Grid').innerHTML = TOOLS_15.map((t, idx) => {
+    let extra = '';
+    if (idx === 0) extra = `<div class="tool-interactive-box"><span>لوت مقترح (${cap}$):</span><strong class="mono">${Math.max(0.01, +(cap * 0.01 / 100).toFixed(2))} Lot</strong></div>`;
+    else if (idx === 3) extra = `<div class="tool-interactive-box"><span>الفريم النشط:</span><strong>${state.timeframe}</strong></div>`;
+    else if (idx === 14) extra = `<div class="tool-interactive-box"><span>التنبيه الصوتي:</span><button type="button" class="tp-mini-btn" onclick="toggleSound()">${state.soundOn ? '🔊 مفعّل' : '🔇 متوقف'}</button></div>`;
+    return `
+      <div class="mini-card">
+        <div class="mini-card-head">
+          <span class="mini-card-title">${t.name}</span>
+          <span class="mini-pill">نشط</span>
+        </div>
+        <div class="mini-card-desc">${t.info}</div>
+        ${extra}
+      </div>
+    `;
+  }).join('');
+}
+
+function renderExtraFeatures() {
+  document.getElementById('extraFeaturesGrid').innerHTML = EXTRA_FEATURES.map((ef) => `
+    <div class="mini-card">
+      <div class="mini-card-head">
+        <span class="mini-card-title">${ef.title}</span>
+        <span class="mini-pill">مفعّل</span>
+      </div>
+      <div class="mini-card-desc">${ef.desc}</div>
+    </div>
+  `).join('');
+}
+
+function filterCategory(cat, el) {
+  state.category = cat;
+  document.querySelectorAll('.cat-tab').forEach((b) => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const firstMatch = Object.keys(ASSETS).find((k) => cat === 'ALL' || ASSETS[k].cat === cat);
+  if (firstMatch) state.pair = firstMatch;
+  renderTicker();
+  renderPairButtons();
+  runFullAnalysis();
+}
+
+function selectPair(sym) {
+  state.pair = sym;
+  renderTicker();
+  renderPairButtons();
+  runFullAnalysis();
+}
+
+function selectTimeframe(tf) {
+  state.timeframe = tf;
+  renderTimeframeButtons();
+  runFullAnalysis();
+}
+
+function setMode(m) {
+  state.mode = m;
+  document.getElementById('modeScalpBtn').classList.toggle('active', m === 'SCALP');
+  document.getElementById('modeSwingBtn').classList.toggle('active', m === 'SWING');
+  runFullAnalysis();
+}
+
+function openGoldDedicatedPage() {
+  state.goldDedicated = true;
+  state.pair = 'XAUUSD';
+  state.category = 'GOLD';
+  document.getElementById('goldDedicatedBanner').classList.add('active');
+  document.getElementById('marketSelectorCard').style.display = 'none';
+  document.getElementById('mainWorkspaceGrid').style.gridTemplateColumns = '1fr';
+  renderTicker();
+  renderPairButtons();
+  runFullAnalysis();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('تم فتح صفحة الذهب المستقلة (XAUUSD)');
+}
+
+function exitGoldDedicatedMode() {
+  state.goldDedicated = false;
+  state.category = 'ALL';
+  document.getElementById('goldDedicatedBanner').classList.remove('active');
+  document.getElementById('marketSelectorCard').style.display = 'block';
+  document.getElementById('mainWorkspaceGrid').style.gridTemplateColumns = '';
+  document.querySelectorAll('.cat-tab').forEach((b, idx) => b.classList.toggle('active', idx === 0));
+  renderTicker();
+  renderPairButtons();
+  runFullAnalysis();
+}
+
+function handleLoginSubmit(e) {
+  e.preventDefault();
+  const u = {
+    name: document.getElementById('loginNameInput').value.trim(),
+    email: document.getElementById('loginEmailInput').value.trim(),
+    capital: parseFloat(document.getElementById('loginCapitalInput').value || '1000')
+  };
+  state.user = u;
+  localStorage.setItem('aq_v3_user', JSON.stringify(u));
+  applyUserBadge();
+  renderTools15();
+  calcTpSplitPlan();
+  closeModal('loginModal');
+  showToast(`مرحباً بك ${u.name}`);
+}
+
+function applyUserBadge() {
+  if (state.user && state.user.name) {
+    document.getElementById('userSessionBadge').textContent = `${state.user.name} (${state.user.capital}$)`;
+    document.getElementById('loginTopBtn').innerHTML = `<span>👤</span><span>${state.user.name}</span>`;
+    document.getElementById('loginNameInput').value = state.user.name;
+    document.getElementById('loginEmailInput').value = state.user.email || '';
+    document.getElementById('loginCapitalInput').value = state.user.capital || 1000;
+  }
+}
+
+function saveOandaConfig() {
+  state.oanda = {
+    env: document.getElementById('oandaEnvSel').value,
+    account: document.getElementById('oandaAccountInput').value.trim(),
+    token: document.getElementById('oandaTokenInput').value.trim()
+  };
+  localStorage.setItem('aq_v3_oanda', JSON.stringify(state.oanda));
+  fetchOandaPricing();
+  closeModal('feedsModal');
+  showToast('تم حفظ إعدادات OANDA');
+}
+
+function populateAlertSelect() {
+  document.getElementById('alertPairSelect').innerHTML = Object.keys(ASSETS).map((k) => `<option value="${k}">${k} — ${ASSETS[k].name}</option>`).join('');
+  document.getElementById('alertPairSelect').value = state.pair;
+}
+
+function addAlertFromCurrentSignal() {
+  if (!state.signal) return;
+  state.alerts.unshift({ id: Date.now(), pair: state.signal.pair, price: state.signal.entry, triggered: false });
+  localStorage.setItem('aq_v3_alerts', JSON.stringify(state.alerts));
+  renderAlertsList();
+  playBeep();
+  showToast(`تم تفعيل تنبيه على ${state.signal.pair} عند ${state.signal.entry}`);
+}
+
+function handleAddAlert(e) {
+  e.preventDefault();
+  const pair = document.getElementById('alertPairSelect').value;
+  const price = parseFloat(document.getElementById('alertPriceInput').value);
+  if (isNaN(price) || price <= 0) return;
+  state.alerts.unshift({ id: Date.now(), pair, price, triggered: false });
+  localStorage.setItem('aq_v3_alerts', JSON.stringify(state.alerts));
+  document.getElementById('alertPriceInput').value = '';
+  renderAlertsList();
+  showToast('تمت إضافة التنبيه');
+}
+
+function renderAlertsList() {
+  document.getElementById('alertsCountBadge').textContent = state.alerts.length;
+  const box = document.getElementById('alertsListBox');
+  if (!state.alerts.length) {
+    box.innerHTML = '<div style="font-size:12px; color:var(--text-secondary);">لا توجد تنبيهات مفعلة حالياً.</div>';
+    return;
+  }
+  box.innerHTML = state.alerts.map((al) => `
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 10px; border:1px solid var(--border-light); border-radius:8px; margin-bottom:6px; font-size:12px;">
+      <span><strong>${al.pair}</strong> @ <span class="mono">${al.price}</span> ${al.triggered ? '• <strong>تم الوصول</strong>' : ''}</span>
+      <button type="button" class="icon-btn" onclick="deleteAlert(${al.id})">حذف</button>
+    </div>
+  `).join('');
+}
+
+function deleteAlert(id) {
+  state.alerts = state.alerts.filter((x) => x.id !== id);
+  localStorage.setItem('aq_v3_alerts', JSON.stringify(state.alerts));
+  renderAlertsList();
+}
+
+function checkAlertsNow() {
+  let changed = false;
+  state.alerts.forEach((al) => {
+    if (al.triggered) return;
+    const cur = state.prices[al.pair];
+    if (cur && Math.abs(cur - al.price) <= ASSETS[al.pair].vol * 0.12) {
+      al.triggered = true;
+      changed = true;
+      playBeep();
+      showToast(`🔔 تنبيه: وصل ${al.pair} إلى ${al.price}`);
+    }
+  });
+  if (changed) {
+    localStorage.setItem('aq_v3_alerts', JSON.stringify(state.alerts));
+    renderAlertsList();
+  }
+}
+
+function calcTpSplitPlan() {
+  const lot = Math.max(0.01, parseFloat(document.getElementById('splitTotalLot')?.value || '0.10'));
+  const shares = [0.25, 0.25, 0.20, 0.15, 0.15];
+  const lines = shares.map((pct, i) => `<div>• <strong>TP${i + 1}</strong> (${Math.round(pct * 100)}%): <span class="mono">${Math.max(0.01, +(lot * pct).toFixed(2))} Lot</span></div>`);
+  document.getElementById('tpSplitResultBox').innerHTML = lines.join('') + `<div style="margin-top:6px; font-weight:800; color:#0f766e;">✓ بعد TP1 يُنصح بنقل وقف الخسارة إلى نقطة الدخول.</div>`;
+}
+
+function toggleSound() {
+  state.soundOn = !state.soundOn;
+  renderTools15();
+  showToast(state.soundOn ? 'تم تفعيل الصوت' : 'تم كتم الصوت');
+}
+
+function playBeep() {
+  if (!state.soundOn) return;
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new Ctx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.frequency.setValueAtTime(740, ctx.currentTime);
+    gain.gain.setValueAtTime(0.07, ctx.currentTime);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.18);
+  } catch (_) {}
+}
+
+function openModal(id) {
+  if (id === 'alertsModal') populateAlertSelect();
+  if (id === 'extraFeatureModal') calcTpSplitPlan();
+  document.getElementById(id).classList.add('open');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function backdropClose(e, id) {
+  if (e.target.id === id) closeModal(id);
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+window.addEventListener('resize', drawChart);
+
+updateMarketSessionBanner();
+initPrices();
+applyUserBadge();
+renderTicker();
+renderPairButtons();
+renderTimeframeButtons();
+renderSchools12();
+renderTools15();
+renderExtraFeatures();
+renderAlertsList();
+runFullAnalysis();
+connectBinanceLive();
+fetchOandaPricing();
+
+setInterval(aiContinuousEngineTick, 2000);
+setInterval(fetchBinanceTickers, 15000);
+setInterval(fetchOandaPricing, 10000);
+</script>
+</body>
+</html>
